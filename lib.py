@@ -115,7 +115,7 @@ def borrow():
     mycursor = mydb.cursor()
 
 
-    sql = "SELECT bID FROM books WHERE shabak = " + shabak
+    sql = "SELECT bID FROM book WHERE shabak = " + shabak
     mycursor.execute(sql, )
     myresult1 = mycursor.fetchall()
 
@@ -129,6 +129,17 @@ def borrow():
     val = (str(myresult1[0][0]), str(myresult2[0][0]))
     mycursor.execute(sql, val)
     result=mycursor.fetchall()
+   #///////////////////update count/////////////////////
+    sql = "SELECT count FROM book WHERE shabak = " + shabak
+    mycursor.execute(sql, )
+    x=mycursor.fetchall()
+    sql = "UPDATE book SET count ="+str(x[0][0])+"WHERE count="+str(int(x[0][0]-1))
+
+    mycursor.execute(sql)
+    z=mycursor.fetchall()
+    mydb.commit()
+    print(z)
+
 
 
 #//////////////////////////////////////////////////////////////////////////
