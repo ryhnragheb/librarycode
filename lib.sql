@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2021 at 10:56 AM
+-- Generation Time: Dec 11, 2021 at 05:06 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.3.33
+-- PHP Version: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,16 +32,16 @@ CREATE TABLE `book` (
   `book_name` varchar(30) NOT NULL,
   `shabak` varchar(21) NOT NULL,
   `price` varchar(10) NOT NULL,
-  `sub` varchar(30) NOT NULL,
-  `count` int(100) NOT NULL
+  `sub` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `book`
 --
 
-INSERT INTO `book` (`bID`, `book_name`, `shabak`, `price`, `sub`, `count`) VALUES
-(0, '67', '12', '3', '45', 8);
+INSERT INTO `book` (`bID`, `book_name`, `shabak`, `price`, `sub`) VALUES
+(3, 'bio', '0011', '10', 'bio'),
+(4, 'math', '0010', '11', 'math');
 
 -- --------------------------------------------------------
 
@@ -63,8 +63,27 @@ CREATE TABLE `borrow` (
 --
 
 INSERT INTO `borrow` (`borrowID`, `mID`, `bID`, `sdate`, `fdate`, `situ`) VALUES
-(1, 2, 1, '0000-00-00', '0000-00-00', 0),
-(3, 1, 2, '0000-00-00', '0000-00-00', 0);
+(18, 1, 3, '0000-00-00', '0000-00-00', 0),
+(19, 2, 4, '0000-00-00', '0000-00-00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `counts`
+--
+
+CREATE TABLE `counts` (
+  `book` varchar(30) NOT NULL,
+  `nums` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `counts`
+--
+
+INSERT INTO `counts` (`book`, `nums`) VALUES
+('bio', 4),
+('math', 10);
 
 -- --------------------------------------------------------
 
@@ -93,6 +112,12 @@ INSERT INTO `members` (`mID`, `name`, `lname`, `ncode`, `phone`) VALUES
 --
 
 --
+-- Indexes for table `book`
+--
+ALTER TABLE `book`
+  ADD PRIMARY KEY (`bID`);
+
+--
 -- Indexes for table `borrow`
 --
 ALTER TABLE `borrow`
@@ -109,10 +134,16 @@ ALTER TABLE `members`
 --
 
 --
+-- AUTO_INCREMENT for table `book`
+--
+ALTER TABLE `book`
+  MODIFY `bID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `borrow`
 --
 ALTER TABLE `borrow`
-  MODIFY `borrowID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `borrowID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `members`
