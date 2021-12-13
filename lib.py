@@ -158,32 +158,27 @@ def updatecount(shabak,check):
 
         sql = "SELECT book_name FROM book WHERE shabak = " + shabak
         mycursor.execute(sql, )
-        x = mycursor.fetchall()
-        print(x)
+        x1 = mycursor.fetchall()
+        print(x1)
 
 
-        sql = "SELECT nums FROM counts WHERE book = " + str(x[0][0])
+        sql = "SELECT nums FROM counts WHERE book = " + str(x1[0][0])
         mycursor.execute(sql, )
         x=mycursor.fetchall()
         print(x)
 
-        """sql = "UPDATE count SET num ="+str(x[0][0])+"WHERE num="+str(int(x[0][0]-1))"""
+
         #///////////////////update count for borrow//////////////////////////
         if check==0:
-            sql = "UPDATE  counts SET  nums = %s WHERE nums = %s"
-            val = ("str(int(x[0][0]-1)", "str(x[0][0]")
+            sql = "UPDATE counts SET nums =" + str(int(x[0][0] - 1)) + "WHERE book=" + str(x1[0][0])
 
             mycursor.execute(sql, val)
             mydb.commit()
         #//////////////////update count for add book/////////////////////////
         if check==1:
-            sql = "UPDATE  counts SET  nums = %s WHERE nums = %s"
-            val = ("str(int(x[0][0]+1)", "str(x[0][0]")
-
-            mycursor.execute(sql, val)
+            sql = "UPDATE counts SET nums =" + str(int(x[0][0] + 1)) + "WHERE book=" + str(x1[0][0])
+            mycursor.execute(sql,)
             mydb.commit()
-
-
 
 
 #////////////////////////////////////////////////////menue//////////////////////////////////////////////////////////////
