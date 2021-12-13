@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2021 at 05:06 PM
+-- Generation Time: Dec 13, 2021 at 07:45 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -63,8 +63,11 @@ CREATE TABLE `borrow` (
 --
 
 INSERT INTO `borrow` (`borrowID`, `mID`, `bID`, `sdate`, `fdate`, `situ`) VALUES
-(18, 1, 3, '0000-00-00', '0000-00-00', 0),
-(19, 2, 4, '0000-00-00', '0000-00-00', 0);
+(18, 1, 3, '0000-00-00', '0000-00-00', 1),
+(19, 2, 4, '0000-00-00', '0000-00-00', 1),
+(20, 1, 3, '0000-00-00', '0000-00-00', 1),
+(21, 2, 4, '0000-00-00', '0000-00-00', 1),
+(22, 3, 4, '0000-00-00', '0000-00-00', 0);
 
 -- --------------------------------------------------------
 
@@ -105,7 +108,8 @@ CREATE TABLE `members` (
 
 INSERT INTO `members` (`mID`, `name`, `lname`, `ncode`, `phone`) VALUES
 (1, 'reyhaneh', 'ragheb', '0025', '0930'),
-(2, 'sara', 'karimi', '0015', '0912');
+(2, 'sara', 'karimi', '0015', '0912'),
+(3, 'hana', 'salami', '002528', '0930705');
 
 --
 -- Indexes for dumped tables
@@ -143,13 +147,13 @@ ALTER TABLE `book`
 -- AUTO_INCREMENT for table `borrow`
 --
 ALTER TABLE `borrow`
-  MODIFY `borrowID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `borrowID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `mID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `mID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
