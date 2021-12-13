@@ -1,15 +1,15 @@
 import mysql.connector
+#/////////////////////////////////////////////////connect to DB/////////////////////////////////////////////////////////
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="user1",
+    password="12345",
+    database="library"
 
-
+)
 #//////////////////////////////////////////adding new member////////////////////////////////////////////////////////////
 def insertmember():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="user1",
-        password="12345",
-        database="library"
 
-    )
     mycursor = mydb.cursor()
 
     sql = "INSERT INTO members (name, lname, ncode,phone) VALUES (%s, %s ,%s, %s)"
@@ -25,13 +25,6 @@ def insertmember():
 
 # ///////////////////////////////////////////show a list of books///////////////////////////////////////////////////////
 def showbook():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="user1",
-        password="12345",
-        database="library"
-
-    )
 
 
     mycursor = mydb.cursor()
@@ -46,20 +39,21 @@ def showbook():
 
 # //////////////////////////////////////////////////adding new book/////////////////////////////////////////////////////
 def insertbook():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="user1",
-        password="12345",
-        database="library"
 
-    )
     mycursor = mydb.cursor()
-    sql = "INSERT INTO book (book_name,shabak,price,sub) VALUES (%s, %s ,%s, %s)"
     shabak = input("shabak")
     price = input("price")
     sub = input("subject")
     bname = input("bookname")
-    count =input("howmany books do you want to add")
+    count = input("howmany books do you want to add")
+
+    mycursor.execute("SELECT book_name FROM book")
+    myresult = mycursor.fetchall()
+
+    if bname in myresult:
+        updatecount(shabak, 1)
+
+    sql = "INSERT INTO book (book_name,shabak,price,sub) VALUES (%s, %s ,%s, %s)"
 
     val = (bname, shabak, price, sub)
     mycursor.execute(sql, val)
@@ -68,19 +62,11 @@ def insertbook():
     val = (bname,count)
     mycursor.execute(sql, val)
     mydb.commit()
-    
-    #updatecount(shabak, 1) 
-    
+
+
     return ("book", bname,"added")
 #///////////////////////////////////////////show the books that you borrowed////////////////////////////////////////////
 def checkborrow():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="user1",
-        password="12345",
-        database="library"
-
-    )
 
     mycursor = mydb.cursor()
 
@@ -108,13 +94,7 @@ def checkborrow():
 
 # ///////////////////////////////////////////////////borrow a book//////////////////////////////////////////////////////
 def borrow():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="user1",
-        password="12345",
-        database="library"
 
-    )
     shabak=input("plz enter your book shabak")
     ncode=input("plz enter your nathonalcode")
 
@@ -131,22 +111,49 @@ def borrow():
     myresult2= mycursor.fetchall()
     print(myresult2)
 
-    sql = "INSERT INTO borrow (bID, mID) VALUES (%s, %s)"
-    val = (str(myresult1[0][0]), str(myresult2[0][0]))
-    print(val)
-    mycursor.execute(sql, val)
-    mydb.commit()
-    """updatecount(shabak,0)"""
+    sql = "SELECT situ FROM borrow WHERE bID = " + str(myresult1[0][0])
+    mycursor.execute(sql, )
+    myresult3 = mycursor.fetchall()
+    print(myresult3)
+
+    if myresult3[0][0]==1:
+        sql = "INSERT INTO borrow (bID, mID) VALUES (%s, %s)"
+        val = (str(myresult1[0][0]), str(myresult2[0][0]))
+        mycursor.execute(sql, val)
+        mydb.commit()
+        updatecount(shabak,0)
+
+    else:
+        print("sorry,this book is not exist in library now")
+#///////////////////////////////////////////////////return book/////////////////////////////////////////////////////////
+def returnbook():
+    shabak = input("plz enter your book shabak")
+    ncode = input("plz enter your nathonalcode")
+
+    mycursor = mydb.cursor()
+
+    sql = "SELECT bID FROM book WHERE shabak = " + shabak
+    mycursor.execute(sql, )
+    myresult1 = mycursor.fetchall()
+    print(myresult1)
+    sql = "SELECT situ FROM borrow WHERE bID =" + str(myresult1[0][0])
+    mycursor.execute(sql,)
+    myresult2 = mycursor.fetchall()
+    print(myresult2)
+    if myresult2[0][0]==0:
+
+        sql = "UPDATE borrow SET situ = %s WHERE bID = %s"
+        val = ("1", myresult1[0][0])
+
+        mycursor.execute(sql, val)
+
+        mydb.commit()
+
+
 #///////////////////////////////////////////////////update count////////////////////////////////////////////////////////
 
 def updatecount(shabak,check):
-        mydb = mysql.connector.connect(
-            host="localhost",
-            user="user1",
-            password="12345",
-            database="library"
 
-        )
         mycursor = mydb.cursor()
 
         sql = "SELECT book_name FROM book WHERE shabak = " + shabak
@@ -163,14 +170,14 @@ def updatecount(shabak,check):
         """sql = "UPDATE count SET num ="+str(x[0][0])+"WHERE num="+str(int(x[0][0]-1))"""
         #///////////////////update count for borrow//////////////////////////
         if check==0:
-            sql = "UPDATE  counts nums = %s WHERE nums = %s"
+            sql = "UPDATE  counts SET  nums = %s WHERE nums = %s"
             val = ("str(int(x[0][0]-1)", "str(x[0][0]")
-    
+
             mycursor.execute(sql, val)
             mydb.commit()
         #//////////////////update count for add book/////////////////////////
         if check==1:
-            sql = "UPDATE  counts nums = %s WHERE nums = %s"
+            sql = "UPDATE  counts SET  nums = %s WHERE nums = %s"
             val = ("str(int(x[0][0]+1)", "str(x[0][0]")
 
             mycursor.execute(sql, val)
@@ -182,7 +189,7 @@ def updatecount(shabak,check):
 #////////////////////////////////////////////////////menue//////////////////////////////////////////////////////////////
 x=1
 while x!=0:
-    menue = int(input("add book:1 , show all books:2 , register:3,check your borrow:4,borrow:5"))
+    menue = int(input("add book:1 , show all books:2 , register:3,check your borrow:4,borrow:5,return6:"))
 
     if menue == 1:
         print(insertbook())
@@ -194,3 +201,5 @@ while x!=0:
         checkborrow()
     if menue == 5:
         borrow()
+    if menue == 6:
+      returnbook()
