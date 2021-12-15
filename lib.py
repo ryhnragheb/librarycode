@@ -65,6 +65,33 @@ def insertbook():
 
 
     return ("book", bname,"added")
+
+#////////////////////////////////////////////delete member//////////////////////////////////////////////////////////////
+def deletemember():
+  mycursor = mydb.cursor()
+  ncode = input("nationalcode:")
+  sql = "DELETE FROM members WHERE ncode = %s"
+  val = (ncode,)
+
+  mycursor.execute(sql, val)
+
+  mydb.commit()
+
+  print(mycursor.rowcount, "record(s) deleted")
+
+# ////////////////////////////////////////////////////delete book///////////////////////////////////////////////////////
+def DeleteBook():
+      mycursor = mydb.cursor()
+
+      sql = "DELETE FROM book WHERE Shabak = %s"
+      shabak = input("shabak")
+      val = (shabak,)
+
+      mycursor.execute(sql, val)
+
+      mydb.commit()
+
+      print(mycursor.rowcount, "record(s) deleted")
 #///////////////////////////////////////////show the books that you borrowed////////////////////////////////////////////
 def checkborrow():
 
@@ -184,17 +211,37 @@ def updatecount(shabak,check):
 #////////////////////////////////////////////////////menue//////////////////////////////////////////////////////////////
 x=1
 while x!=0:
-    menue = int(input("add book:1 , show all books:2 , register:3,check your borrow:4,borrow:5,return6:"))
+    menue = int(input("      press\'1\' to add new book \n\t  press\'2\' to view the list of book \n\t  press\'3\' to add new member \n\t  press\'4\' to view the list of books that you borrowed \n\t  press\'5\' to borrow a book \n\t  press\'6\' to return book\n\t  press\'7\' to remove a book from list \n\t  press\'8\' to remove a member from list \n  \U000027A1 "))
 
     if menue == 1:
-        print(insertbook())
+       print(insertbook())
     if menue == 2:
         showbook()
     if menue == 3:
-        print(insertmember())
+      print(insertmember())
     if menue == 4:
-        checkborrow()
+      checkborrow()
     if menue == 5:
-        borrow()
+       borrow()
     if menue == 6:
       returnbook()
+    if menue==7:
+      DeleteBook()
+    if menue==8:
+      deletemember()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
