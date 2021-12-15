@@ -58,11 +58,6 @@ def insertbook():
     val = (bname, shabak, price, sub)
     mycursor.execute(sql, val)
 
-    sql = "INSERT INTO counts (book,nums) VALUES (%s, %s)"
-    val = (bname,count)
-    mycursor.execute(sql, val)
-    mydb.commit()
-
 
     return ("book", bname,"added")
 
@@ -109,7 +104,7 @@ def checkborrow():
     mycursor.execute(sql,)
 
     myresult = mycursor.fetchall()
-    
+
 
     sql = "SELECT book_name FROM book WHERE bID =" + str(myresult[0][0])
 
@@ -162,11 +157,11 @@ def returnbook():
     sql = "SELECT bID FROM book WHERE shabak = " + shabak
     mycursor.execute(sql, )
     myresult1 = mycursor.fetchall()
-    
+
     sql = "SELECT situ FROM borrow WHERE bID =" + str(myresult1[0][0])
     mycursor.execute(sql,)
     myresult2 = mycursor.fetchall()
-    
+
     if myresult2[0][0]==0:
 
         sql = "UPDATE borrow SET situ = %s WHERE bID = %s"
@@ -186,13 +181,13 @@ def updatecount(shabak,check):
         sql = "SELECT book_name FROM book WHERE shabak = " + shabak
         mycursor.execute(sql, )
         x1 = mycursor.fetchall()
-       
+
 
 
         sql = "SELECT nums FROM counts WHERE book = " + str(x1[0][0])
         mycursor.execute(sql, )
         x=mycursor.fetchall()
-       
+
 
         #///////////////////update count for borrow//////////////////////////
         if check==0:
