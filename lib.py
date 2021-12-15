@@ -109,9 +109,9 @@ def checkborrow():
     mycursor.execute(sql,)
 
     myresult = mycursor.fetchall()
-    print(myresult)
+    
 
-    sql = "SELECT book_name FROM books WHERE bID =" + str(myresult[0][0])
+    sql = "SELECT book_name FROM book WHERE bID =" + str(myresult[0][0])
 
     mycursor.execute(sql,)
 
@@ -162,11 +162,11 @@ def returnbook():
     sql = "SELECT bID FROM book WHERE shabak = " + shabak
     mycursor.execute(sql, )
     myresult1 = mycursor.fetchall()
-    print(myresult1)
+    
     sql = "SELECT situ FROM borrow WHERE bID =" + str(myresult1[0][0])
     mycursor.execute(sql,)
     myresult2 = mycursor.fetchall()
-    print(myresult2)
+    
     if myresult2[0][0]==0:
 
         sql = "UPDATE borrow SET situ = %s WHERE bID = %s"
@@ -186,14 +186,13 @@ def updatecount(shabak,check):
         sql = "SELECT book_name FROM book WHERE shabak = " + shabak
         mycursor.execute(sql, )
         x1 = mycursor.fetchall()
-        print(x1)
+       
 
 
         sql = "SELECT nums FROM counts WHERE book = " + str(x1[0][0])
         mycursor.execute(sql, )
         x=mycursor.fetchall()
-        print(x)
-
+       
 
         #///////////////////update count for borrow//////////////////////////
         if check==0:
