@@ -58,6 +58,10 @@ def insertbook():
     val = (bname, shabak, price, sub)
     mycursor.execute(sql, val)
 
+    sql = "INSERT INTO count (book,shabak,count) VALUES (%s, %s ,%s)"
+
+    val = (bname, shabak, count)
+    mycursor.execute(sql, val)
 
     return ("book", bname,"added")
 
@@ -134,7 +138,7 @@ def borrow():
     print(myresult2)
 
     sql = "SELECT situ FROM borrow WHERE bID = " + str(myresult1[0][0])
-    mycursor.execute(sql, )
+    mycursor.execute(sql,)
     myresult3 = mycursor.fetchall()
     print(myresult3)
 
@@ -144,6 +148,13 @@ def borrow():
         mycursor.execute(sql, val)
         mydb.commit()
         updatecount(shabak,0)
+
+        sql = "UPDATE borrow SET situ = %s WHERE bID = %s"
+        val = ("0", myresult1[0][0])
+
+        mycursor.execute(sql, val)
+
+        mydb.commit()
 
     else:
         print("sorry,this book is not exist in library now")
@@ -178,26 +189,26 @@ def updatecount(shabak,check):
 
         mycursor = mydb.cursor()
 
-        sql = "SELECT book_name FROM book WHERE shabak = " + shabak
+        """sql = "SELECT book_name FROM book WHERE shabak = " + shabak
         mycursor.execute(sql, )
-        x1 = mycursor.fetchall()
+        x1 = mycursor.fetchall()"""
 
 
 
-        sql = "SELECT nums FROM counts WHERE book = " + str(x1[0][0])
+        sql = "SELECT nums FROM count WHERE shabak = " + shabak
         mycursor.execute(sql, )
         x=mycursor.fetchall()
 
 
         #///////////////////update count for borrow//////////////////////////
         if check==0:
-            sql = "UPDATE counts SET nums =" + str(int(x[0][0] - 1)) + "WHERE book=" + str(x1[0][0])
+            sql = "UPDATE count SET nums =" + str(int(x[0][0] - 1)) + "WHERE shabak=" + shabak
 
-            mycursor.execute(sql, val)
+            mycursor.execute(sql,)
             mydb.commit()
         #//////////////////update count for add book/////////////////////////
         if check==1:
-            sql = "UPDATE counts SET nums =" + str(int(x[0][0] + 1)) + "WHERE book=" + str(x1[0][0])
+            sql = "UPDATE count SET nums =" + str(int(x[0][0] + 1)) + "WHERE shabak=" + shabak
             mycursor.execute(sql,)
             mydb.commit()
 
